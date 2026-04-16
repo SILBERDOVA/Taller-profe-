@@ -22,3 +22,38 @@ const salario_minimo_integral_vigente = 22761765;
 const subsidio_transporte = 249.095;
 const uvt = 52.37;
 
+// Ingreso de información salarial
+const comisiones = 0;
+const total_horas_extra = 0;
+const clasificacion_nivel_de_riesgo = 0;
+
+// Tarifas de ARL (IBC)
+const riesgo_uno_minimo = 0.522;
+const riesgo_dos_bajo = 1.044;
+const riesgo_tres_medio = 2.436;
+const riesgo_cuatro_alto = 4.350;
+const riesgo_cinco_maximo = 6.960;
+
+// Lógica de cálculo de nómina
+// 1. Calcular El Total Devengado es salario + comisiones = horas extra
+// El subsidio de transporte no entra en el cálculo de IBC 
+let totalDevengado = salario + comisiones + total_horas_extras;
+// Cálculo del IBC
+let ibc = totalDevengado * 0.70;
+
+// Salud y pensión, que es el 4% de cada uno sobre el IBC
+let salud = ibc * 0.04;
+let pension = ibc * 0.04;
+
+// Validación de perfil
+// Regla a: Menor de 18 años
+if (edad < edad_minima) {
+    console.log("No es posible continuar: El usuario es menor de edad.");
+}
+
+//Regla b: 
+
+// Fondo salario pensional, se paga 1% adicional si el IBC >= 4 SMMLV
+// Usamos el operador ? para escribir if-else condición ? expresión_si_es_verdadero : expresión_si_es_falso, entonces 
+// si el IBC es mayor o igual a cuatro salarios mínimos, entonces se calcula el 1% del IBC, de lo contrario, su valor es 0
+let fondoSolidaridad = (ibc >= (4 * salario_minimo)) ? (ibc * 0.01) : 0;
