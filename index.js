@@ -1,59 +1,82 @@
-// Ingreso de información básica 
-let nombreCompleto = "";
-let edad = 0;
-let tipoDocumento = "";
-let numeroDocumento = "";
+//Daniel Correa Abril 1023083176
 
-// Variables de entrada
-let salario = 0;
-let mesadaPensional = 0;
-let clasificacion = ""; 
-let pagoPension = 0;
-let prestacionesLey = 0;
 
-// Valores fijos
-const edad_minima = 18;
-const edad_maxima_beneficio = 25;
-const edad_jubilacion = 60;
-
-// Valores y Tarifas en Colombia para 2026
+// VARIABLES
 const salario_minimo = 1750905;
-const salario_minimo_integral_vigente = 22761765;
-const subsidio_transporte = 249.095;
+const subsidio_transporte = 249095; 
 const uvt = 52.37;
 
-// Ingreso de información salarial
-const comisiones = 0;
-const total_horas_extra = 0;
-const clasificacion_nivel_de_riesgo = 0;
-
 // Tarifas de ARL (IBC)
-const riesgo_uno_minimo = 0.522;
-const riesgo_dos_bajo = 1.044;
-const riesgo_tres_medio = 2.436;
-const riesgo_cuatro_alto = 4.350;
-const riesgo_cinco_maximo = 6.960;
+const riesgo_uno_minimo = 0.00522; 
+const riesgo_dos_bajo = 0.01044;
+const riesgo_tres_medio = 0.02436;
+const riesgo_cuatro_alto = 0.04350;
+const riesgo_cinco_maximo = 0.06960;
 
-// Lógica de cálculo de nómina
-// 1. Calcular El Total Devengado es salario + comisiones = horas extra
-// El subsidio de transporte no entra en el cálculo de IBC 
-let totalDevengado = salario + comisiones + total_horas_extras;
-// Cálculo del IBC
-let ibc = totalDevengado * 0.70;
+function calcular() {
+    
+    let nombreCompleto = document.getElementById("nombre").value;
+    let edad = parseInt(document.getElementById("edad").value);
 
-// Salud y pensión, que es el 4% de cada uno sobre el IBC
-let salud = ibc * 0.04;
-let pension = ibc * 0.04;
+    // Validación de perfil
+    if (edad < 18) {
+        console.log("No es posible continuar: El usuario es menor de edad.");
+        alert("No es posible continuar: El usuario es menor de edad.");
+        return; 
+    }
 
-// Validación de perfil
-// Regla a: Menor de 18 años
-if (edad < edad_minima) {
-    console.log("No es posible continuar: El usuario es menor de edad.");
+    if (edad < 25) {
+        console.log("Usuario beneficiario por cotizante. No continuará.");
+        alert("Usuario beneficiario por cotizante. No continuará.");
+        return;
+    }
+
+    // Ingreso de información salarial
+    let salario = parseFloat(document.getElementById("salario").value) || 0;
+    let comisiones = parseFloat(document.getElementById("comisiones").value) || 0;
+    let total_horas_extra = parseFloat(document.getElementById("horas").value) || 0;
+    let riesgo_elegido = document.getElementById("nivelRiesgo").value;
+
+    // Lógica de cálculo de nómina
+    
+    // Calcular El Total Devengado
+    let totalDevengado = salario + comisiones + total_horas_extra;
+
+    // Cálculo del IBC 
+    let ibc = totalDevengado * 0.70;
+
+    // Salud y pensión
+    let salud = ibc * 0.04;
+    let pension = ibc * 0.04;
+
+    // Fondo solidaridad pensional 
+    let fondoSolidaridad = (ibc >= (4 * salario_minimo)) ? (ibc * 0.01) : 0;
+
+    // Cálculo de ARL según nivel 
+    let pagoARL = 0;
+    if (riesgo_elegido == "1") { pagoARL = ibc * riesgo_uno_minimo; }
+    if (riesgo_elegido == "2") { pagoARL = ibc * riesgo_dos_bajo; }
+    if (riesgo_elegido == "3") { pagoARL = ibc * riesgo_tres_medio; }
+    if (riesgo_elegido == "4") { pagoARL = ibc * riesgo_cuatro_alto; }
+    if (riesgo_elegido == "5") { pagoARL = ibc * riesgo_cinco_maximo; }
+
+    // Auxilio de transporte (Solo si gana <= 2 salarios mínimos)
+    let auxTransporteReal = 0;
+    if (salario <= (2 * salario_minimo)) {
+        auxTransporteReal = subsidio_transporte;
+    }
+
+    // Totales finales
+    let deduccionesTotales = salud + pension + fondoSolidaridad + pagoARL;
+    let netoAPagar = (totalDevengado + auxTransporteReal) - deduccionesTotales;
+
+    document.getElementById("resultado").innerHTML = `
+        <h3>Resultado para: ${nombreCompleto}</h3>
+        <p>IBC calculado: $${ibc.toFixed(0)}</p>
+        <p>Salud + Pensión: $${(salud + pension).toFixed(0)}</p>
+        <p>Fondo Solidaridad: $${fondoSolidaridad.toFixed(0)}</p>
+        <p>ARL: $${pagoARL.toFixed(0)}</p>
+        <hr>
+        <h4>Total a recibir: $${netoAPagar.toFixed(0)}</h4>
+    `;
 }
-
-//Regla b: 
-
-// Fondo salario pensional, se paga 1% adicional si el IBC >= 4 SMMLV
-// Usamos el operador ? para escribir if-else condición ? expresión_si_es_verdadero : expresión_si_es_falso, entonces 
-// si el IBC es mayor o igual a cuatro salarios mínimos, entonces se calcula el 1% del IBC, de lo contrario, su valor es 0
-let fondoSolidaridad = (ibc >= (4 * salario_minimo)) ? (ibc * 0.01) : 0;
