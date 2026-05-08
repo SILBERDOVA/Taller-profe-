@@ -32,26 +32,55 @@
 
     <h1>Simulador de Nómina</h1>
 
-    <p>Nombre: <input type="text" id="nombre"></p>
-    <p>Edad: <input type="number" id="edad"></p>
-    
-    <br>
-
-    <p>Salario: <input type="number" id="salario"></p>
-    <p>Comisiones: <input type="number" id="comisiones"></p>
-    <p>Horas Extra: <input type="number" id="horas"></p>
-    
-    <p>Riesgo ARL: 
-        <select id="nivelRiesgo">
-            <option value="1">Riesgo 1</option>
-            <option value="2">Riesgo 2</option>
-            <option value="3">Riesgo 3</option>
-            <option value="4">Riesgo 4</option>
-            <option value="5">Riesgo 5</option>
+   <form  class="form-example">
+  <div class="form-example">
+    <label for="nombreCompleto">Nombre: </label>
+    <input type="text" name="nombreCompleto" id="nombreCompleto" required />
+  </div>
+    <div class="form-example">
+        <label for="edad">Edad: </label>
+        <input type="number" name="edad" id="edad" required />
+    </div>
+    <div class="form-example">
+        <label for="numero_de_documento">Número de documento: </label>
+        <input type="text" name="numero_de_documento" id="numero_de_documento" required />
+    </div>
+    <div class="form-example">
+        <label for="tipo_de_documento">Tipo de documento: </label>
+        <select name="tipo_de_documento" id="tipo_de_documento" required>
+            <option value="">Seleccione</option>
+            <option value="CC">Cédula de Ciudadanía</option>
+            <option value="TI">Tarjeta de Identidad</option>
+            <option value="CE">Cédula de Extranjería</option>
         </select>
-    </p>
-
-    <button onclick="calcular()">CALCULAR NOMINA</button>
+    </div>
+    <div class="form-example">
+        <label for="salario">Salario: </label>
+        <input type="number" name="salario" id="salario" required />
+    </div>  
+    <div class="form-example">
+        <label for="comisiones">Comisiones: </label>
+        <input type="number" name="comisiones" id="comisiones" required />
+    </div>  
+    <div class="form-example">
+        <label for="horas">Horas extra: </label>
+        <input type="number" name="horas" id="horas" required />
+    </div>
+    <div class="form-example">
+        <label for="nivelRiesgo">Nivel de riesgo ARL: </label>
+        <select name="nivelRiesgo" id="nivelRiesgo" required>
+            <option value="">Seleccione</option>
+            <option value="1">Nivel 1 - Riesgo mínimo</option>
+            <option value="2">Nivel 2 - Riesgo bajo</option>
+            <option value="3">Nivel 3 - Riesgo medio</option>
+            <option value="4">Nivel 4 - Riesgo alto</option>
+            <option value="5">Nivel 5 - Riesgo máximo</option>
+        </select>
+    </div>
+  <div class="form-example">
+    <input type="submit" value="CALCULAR NOMINA" />
+  </div>
+</form>
 
     <div id="resultado"></div>
 
@@ -61,4 +90,4 @@
 
   </body> 
 
-</html> 
+</html>

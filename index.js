@@ -1,7 +1,6 @@
 //Daniel Correa Abril 1023083176
 
-
-// VARIABLES
+// variables
 const salario_minimo = 1750905;
 const subsidio_transporte = 249095; 
 const uvt = 52.37;
@@ -13,10 +12,15 @@ const riesgo_tres_medio = 0.02436;
 const riesgo_cuatro_alto = 0.04350;
 const riesgo_cinco_maximo = 0.06960;
 
-function calcular() {
-    
-    let nombreCompleto = document.getElementById("nombre").value;
-    let edad = parseInt(document.getElementById("edad").value);
+// datos que el usuario ingresa   
+let nombreCompleto = "";
+let edad = 0;
+let tipo_de_documento = "";
+let numero_de_documento = "";
+let salario = 0;
+let comisiones = 0;
+let total_horas_extra = 0;
+let riesgo_elegido = 0;
 
     // Validación de perfil
     if (edad < 18) {
@@ -31,14 +35,6 @@ function calcular() {
         return;
     }
 
-    // Ingreso de información salarial
-    let salario = parseFloat(document.getElementById("salario").value) || 0;
-    let comisiones = parseFloat(document.getElementById("comisiones").value) || 0;
-    let total_horas_extra = parseFloat(document.getElementById("horas").value) || 0;
-    let riesgo_elegido = document.getElementById("nivelRiesgo").value;
-
-    // Lógica de cálculo de nómina
-    
     // Calcular El Total Devengado
     let totalDevengado = salario + comisiones + total_horas_extra;
 
@@ -66,17 +62,4 @@ function calcular() {
         auxTransporteReal = subsidio_transporte;
     }
 
-    // Totales finales
-    let deduccionesTotales = salud + pension + fondoSolidaridad + pagoARL;
-    let netoAPagar = (totalDevengado + auxTransporteReal) - deduccionesTotales;
-
-    document.getElementById("resultado").innerHTML = `
-        <h3>Resultado para: ${nombreCompleto}</h3>
-        <p>IBC calculado: $${ibc.toFixed(0)}</p>
-        <p>Salud + Pensión: $${(salud + pension).toFixed(0)}</p>
-        <p>Fondo Solidaridad: $${fondoSolidaridad.toFixed(0)}</p>
-        <p>ARL: $${pagoARL.toFixed(0)}</p>
-        <hr>
-        <h4>Total a recibir: $${netoAPagar.toFixed(0)}</h4>
-    `;
-}
+ 
